@@ -1,0 +1,23 @@
+spring:
+
+  datasource:
+
+    url: jdbc:postgresql://localhost:5432/user_management
+
+    username: admin
+
+    password: admin123
+
+
+  jpa:
+
+    hibernate:
+
+      ddl-auto: validate
+
+    show-sql: true
+
+
+  flyway:
+
+    enabled: true
