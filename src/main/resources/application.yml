@@ -1,23 +1,31 @@
 spring:
 
+  application:
+    name: spring-user-management-api
+
+
   datasource:
-
     url: jdbc:postgresql://localhost:5432/user_management
-
-    username: admin
-
-    password: admin123
+    username: postgres
+    password: postgres
 
 
   jpa:
-
     hibernate:
-
       ddl-auto: validate
 
     show-sql: true
 
+    properties:
+      hibernate:
+        format_sql: true
+
 
   flyway:
-
     enabled: true
+    locations: classpath:db/migration
+
+
+
+server:
+  port: 8080
