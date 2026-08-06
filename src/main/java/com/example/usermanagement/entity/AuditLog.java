@@ -14,26 +14,20 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "refresh_tokens")
+@Table(name = "audit_logs")
 @Getter
 @Setter
 @NoArgsConstructor
-public class RefreshToken extends BaseEntity {
+public class AuditLog extends BaseEntity {
 
-    @Column(
-            nullable = false,
-            unique = true,
-            length = 500
-    )
-    private String token;
+    @Column(nullable = false, length = 100)
+    private String action;
 
     @Column(nullable = false)
-    private LocalDateTime expiryDate;
+    private LocalDateTime timestamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "user_id",
-            nullable = false
-    )
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
 }
