@@ -1,10 +1,14 @@
 package com.example.usermanagement.entity;
 
 
+import com.example.usermanagement.entity.enums.RoleName;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +26,9 @@ import java.util.Set;
 public class Role extends BaseEntity {
 
 
-    @Column(
-            nullable = false,
-            unique = true,
-            length = 50
-    )
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true, length = 50)
+    private RoleName name;
 
 
     @ManyToMany(mappedBy = "roles")
