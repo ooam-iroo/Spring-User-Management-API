@@ -3,6 +3,7 @@ package com.example.usermanagement.service;
 import com.example.usermanagement.dto.auth.RegisterRequest;
 import com.example.usermanagement.entity.Role;
 import com.example.usermanagement.entity.User;
+import com.example.usermanagement.exception.UserAlreadyExistsException;
 import com.example.usermanagement.repository.RoleRepository;
 import com.example.usermanagement.repository.UserRepository;
 import com.example.usermanagement.entity.enums.RoleName;
@@ -97,5 +98,43 @@ class AuthServiceTest {
         verify(userRepository).existsByEmail("john@example.com");
         verify(roleRepository).findByName("USER");
         verify(passwordEncoder).encode("password123");
+    }
+
+    @Test
+    void register_shouldThrowException_whenEmailAlreadyExists() {
+
+        // Arrange
+
+        RegisterRequest request = new RegisterRequest(
+                "John",
+                "Doe",
+                "john@example.com",
+                "password123",
+                "09123456789"
+        );
+
+        when(userRepository.existsByEmail("john@example.com"))
+                .thenReturn(true);
+
+
+        // Act & Assert
+
+        UserAlreadyExistsException exception = assertThrows(
+                UserAlreadyExistsException.class,
+                () -> authService.register(request)
+        );
+
+
+        // Assert
+
+        assertEquals(
+                "User already exists with email: john@example.com",
+                exception.getMessage()
+        );
+
+
+        // Verify
+
+        verify(userRepository, never()).save(any());
     }
 }
