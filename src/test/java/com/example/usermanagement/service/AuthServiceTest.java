@@ -58,7 +58,7 @@ class AuthServiceTest {
         Role userRole = new Role();
         userRole.setName(RoleName.USER);
 
-        when(roleRepository.findByName("USER"))
+        when(roleRepository.findByName(RoleName.USER))
                 .thenReturn(Optional.of(userRole));
 
         when(passwordEncoder.encode("password123"))
@@ -96,7 +96,7 @@ class AuthServiceTest {
         );
 
         verify(userRepository).existsByEmail("john@example.com");
-        verify(roleRepository).findByName("USER");
+        verify(roleRepository).findByName(RoleName.USER);
         verify(passwordEncoder).encode("password123");
     }
 

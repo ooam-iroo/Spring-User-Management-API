@@ -3,6 +3,7 @@ package com.example.usermanagement.service;
 import com.example.usermanagement.dto.auth.RegisterRequest;
 import com.example.usermanagement.entity.Role;
 import com.example.usermanagement.entity.User;
+import com.example.usermanagement.entity.enums.RoleName;
 import com.example.usermanagement.exception.UserAlreadyExistsException;
 import com.example.usermanagement.repository.RoleRepository;
 import com.example.usermanagement.repository.UserRepository;
@@ -37,7 +38,7 @@ public class AuthService {
         }
 
         Role userRole = roleRepository
-                .findByName("USER")
+                .findByName(RoleName.USER)
                 .orElseThrow(() -> new IllegalStateException(
                         "Default USER role not found"
                 ));
