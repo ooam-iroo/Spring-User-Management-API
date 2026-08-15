@@ -3,12 +3,10 @@ spring:
   application:
     name: spring-user-management-api
 
-
   datasource:
     url: jdbc:postgresql://localhost:5432/user_management
     username: postgres
     password: postgres
-
 
   jpa:
     hibernate:
@@ -20,7 +18,6 @@ spring:
       hibernate:
         format_sql: true
 
-
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -29,7 +26,9 @@ spring:
 server:
   port: 8080
 
-jwt:
-  secret: change-this-secret-key-change-this-secret-key
-  access-token-expiration: 900000
-  refresh-token-expiration: 604800000
+
+app:
+  jwt:
+    secret: change-this-secret-key-change-this-secret-key
+    access-token-expiration: 900000
+    refresh-token-expiration: 604800000

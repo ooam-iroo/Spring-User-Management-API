@@ -1,6 +1,10 @@
 package com.example.usermanagement.service;
 
+import com.example.usermanagement.dto.auth.LoginRequest;
+import com.example.usermanagement.dto.auth.LoginResponse;
+import com.example.usermanagement.dto.auth.RefreshTokenRequest;
 import com.example.usermanagement.dto.auth.RegisterRequest;
+import com.example.usermanagement.entity.RefreshToken;
 import com.example.usermanagement.entity.Role;
 import com.example.usermanagement.entity.User;
 import com.example.usermanagement.exception.UserAlreadyExistsException;
@@ -8,6 +12,7 @@ import com.example.usermanagement.repository.RoleRepository;
 import com.example.usermanagement.repository.UserRepository;
 import com.example.usermanagement.entity.enums.RoleName;
 
+import com.example.usermanagement.security.jwt.JwtService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -16,6 +21,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -37,6 +44,15 @@ class AuthServiceTest {
 
     @InjectMocks
     private AuthService authService;
+
+    @Mock
+    private AuthenticationManager authenticationManager;
+
+    @Mock
+    private JwtService jwtService;
+
+    @Mock
+    private RefreshTokenService refreshTokenService;
 
 
     @Test
@@ -136,5 +152,105 @@ class AuthServiceTest {
         // Verify
 
         verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void login_shouldReturnAccessToken_whenCredentialsAreValid() {
+
+        // Arrange
+        LoginRequest request = new LoginRequest(
+                "john@example.com",
+                "password123"
+        );
+
+        User user = new User();
+        user.setEmail("john@example.com");
+
+        Authentication authentication =
+                mock(Authentication.class);
+
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setToken("refresh-token");
+        refreshToken.setUser(user);
+
+        when(authenticationManager.authenticate(any()))
+                .thenReturn(authentication);
+
+        when(authentication.getName())
+                .thenReturn("john@example.com");
+
+        when(userRepository.findByEmail("john@example.com"))
+                .thenReturn(Optional.of(user));
+
+        when(refreshTokenService.createRefreshToken(user))
+                .thenReturn(refreshToken);
+
+        when(jwtService.generateAccessToken("john@example.com"))
+                .thenReturn("access-token");
+
+        // Act
+        LoginResponse response =
+                authService.login(request);
+
+        // Assert
+        assertEquals("access-token", response.accessToken());
+        assertEquals("refresh-token", response.refreshToken());
+        assertEquals("Bearer", response.tokenType());
+
+        verify(authenticationManager)
+                .authenticate(any());
+
+        verify(userRepository)
+                .findByEmail("john@example.com");
+
+        verify(refreshTokenService)
+                .createRefreshToken(user);
+
+        verify(jwtService)
+                .generateAccessToken("john@example.com");
+    }
+
+    @Test
+    void refreshToken_shouldReturnNewAccessToken() {
+
+        RefreshTokenRequest request =
+                new RefreshTokenRequest("refresh-token");
+
+        User user = new User();
+        user.setEmail("john@example.com");
+
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setToken("refresh-token");
+        refreshToken.setUser(user);
+
+        when(refreshTokenService.findByToken("refresh-token"))
+                .thenReturn(refreshToken);
+
+        when(jwtService.generateAccessToken("john@example.com"))
+                .thenReturn("new-access-token");
+
+        LoginResponse response =
+                authService.refreshToken(request);
+
+        assertEquals(
+                "new-access-token",
+                response.accessToken()
+        );
+
+        assertEquals(
+                "refresh-token",
+                response.refreshToken()
+        );
+
+        assertEquals(
+                "Bearer",
+                response.tokenType()
+        );
+
+        verify(refreshTokenService)
+                .findByToken("refresh-token");
+
+        verify(jwtService)
+                .generateAccessToken("john@example.com");
     }
 }
