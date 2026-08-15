@@ -16,12 +16,17 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) {
 
         User user = userRepository
-                .findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found whit email: " + username));
+                .findByEmailWithRoles(username)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(
+                                "User not found with email: " + username
+                        )
+                );
 
         return new CustomUserDetails(user);
     }

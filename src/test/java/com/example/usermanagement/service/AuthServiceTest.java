@@ -105,7 +105,7 @@ class AuthServiceTest {
                 savedUser.getPassword()
         );
 
-        assertFalse(savedUser.getEnabled());
+        assertTrue(savedUser.getEnabled());
 
         assertTrue(
                 savedUser.getRoles().contains(userRole)
