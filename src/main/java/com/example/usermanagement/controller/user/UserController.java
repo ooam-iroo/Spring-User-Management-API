@@ -3,10 +3,9 @@ package com.example.usermanagement.controller.user;
 import com.example.usermanagement.service.UserService;
 import com.example.usermanagement.dto.user.UserResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,5 +31,21 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserResponse>> findAll() {
         return ResponseEntity.ok(userService.findAll());
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> adminOnly() {
+        return ResponseEntity.ok("Hello Admin");
+    }
+
+    @DeleteMapping("/id")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteById(
+            @PathVariable Long id
+    ) {
+        userService.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
