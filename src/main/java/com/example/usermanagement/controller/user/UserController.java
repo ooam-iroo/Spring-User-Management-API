@@ -39,7 +39,7 @@ public class UserController {
         return ResponseEntity.ok("Hello Admin");
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteById(
             @PathVariable Long id
