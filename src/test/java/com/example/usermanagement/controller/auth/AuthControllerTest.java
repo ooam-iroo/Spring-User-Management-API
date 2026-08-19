@@ -4,6 +4,8 @@ import com.example.usermanagement.dto.auth.RegisterRequest;
 import com.example.usermanagement.exception.UserAlreadyExistsException;
 import com.example.usermanagement.service.AuthService;
 import com.example.usermanagement.security.jwt.JwtService;
+import com.example.usermanagement.dto.auth.LoginRequest;
+import com.example.usermanagement.dto.auth.LoginResponse;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,13 +16,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -84,6 +87,108 @@ class AuthControllerTest {
 
         mockMvc.perform(
                         post("/api/auth/register")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(request)
+                )
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void login_shouldReturnToken_whenCredentialsAreValid()
+            throws Exception {
+
+        LoginResponse response = new LoginResponse(
+                "access-token",
+                "refresh-token",
+                "Bearer",
+                900L
+        );
+
+        when(authService.login(any(LoginRequest.class)))
+                .thenReturn(response);
+
+        String request = """
+            {
+                "email": "john@example.com",
+                "password": "password123"
+            }
+            """;
+
+        mockMvc.perform(
+                        post("/api/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(request)
+                )
+                .andExpect(status().isOk())
+                .andExpect(
+                        jsonPath("$.accessToken")
+                                .value("access-token")
+                )
+                .andExpect(
+                        jsonPath("$.refreshToken")
+                                .value("refresh-token")
+                )
+                .andExpect(
+                        jsonPath("$.tokenType")
+                                .value("Bearer")
+                )
+                .andExpect(
+                        jsonPath("$.expiresIn")
+                                .value(900)
+                );
+    }
+
+    @Test
+    void login_shouldReturnBadRequest_whenEmailIsInvalid()
+            throws Exception {
+
+        String request = """
+            {
+                "email": "invalid-email",
+                "password": "password123"
+            }
+            """;
+
+        mockMvc.perform(
+                        post("/api/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(request)
+                )
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void login_shouldReturnBadRequest_whenPasswordIsBlank()
+            throws Exception {
+
+        String request = """
+            {
+                "email": "john@example.com",
+                "password": ""
+            }
+            """;
+
+        mockMvc.perform(
+                        post("/api/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(request)
+                )
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void login_shouldReturnBadRequest_whenPasswordIsTooShort()
+            throws Exception {
+
+        String request = """
+            {
+                "email": "john@example.com",
+                "password": "1234567"
+            }
+            """;
+
+        mockMvc.perform(
+                        post("/api/auth/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(request)
                 )
