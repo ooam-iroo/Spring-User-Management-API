@@ -1,5 +1,6 @@
 package com.example.usermanagement.controller.auth;
 
+import com.example.usermanagement.dto.auth.RefreshTokenRequest;
 import com.example.usermanagement.dto.auth.RegisterRequest;
 import com.example.usermanagement.exception.UserAlreadyExistsException;
 import com.example.usermanagement.service.AuthService;
@@ -189,6 +190,68 @@ class AuthControllerTest {
 
         mockMvc.perform(
                         post("/api/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(request)
+                )
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void refresh_shouldReturnNewAccessToken_whenRefreshTokenIsValid()
+            throws Exception {
+
+        LoginResponse response = new LoginResponse(
+                "new-access-token",
+                "refresh-token",
+                "Bearer",
+                900L
+        );
+
+        when(authService.refreshToken(any(RefreshTokenRequest.class)))
+                .thenReturn(response);
+
+        String request = """
+            {
+                "refreshToken": "refresh-token"
+            }
+            """;
+
+        mockMvc.perform(
+                        post("/api/auth/refresh")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(request)
+                )
+                .andExpect(status().isOk())
+                .andExpect(
+                        jsonPath("$.accessToken")
+                                .value("new-access-token")
+                )
+                .andExpect(
+                        jsonPath("$.refreshToken")
+                                .value("refresh-token")
+                )
+                .andExpect(
+                        jsonPath("$.tokenType")
+                                .value("Bearer")
+                )
+                .andExpect(
+                        jsonPath("$.expiresIn")
+                                .value(900)
+                );
+    }
+
+    @Test
+    void refresh_shouldReturnBadRequest_whenRefreshTokenIsBlank()
+            throws Exception {
+
+        String request = """
+            {
+                "refreshToken": ""
+            }
+            """;
+
+        mockMvc.perform(
+                        post("/api/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(request)
                 )
