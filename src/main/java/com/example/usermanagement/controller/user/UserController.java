@@ -31,10 +31,11 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<UserPageResponse> findAll(
+            @RequestParam(required = false) String email,
             Pageable pageable
     ) {
         return ResponseEntity.ok(
-                userService.findAll(pageable)
+                userService.findAll(email, pageable)
         );
     }
 

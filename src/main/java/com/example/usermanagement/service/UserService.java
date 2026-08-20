@@ -24,9 +24,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserPageResponse findAll(Pageable pageable) {
+    public UserPageResponse findAll(
+            String email,
+            Pageable pageable) {
 
-        Page<User> userPage = userRepository.findAll(pageable);
+        Page<User> userPage;
+
+        if (email != null && !email.isBlank()) {
+            userPage = userRepository
+                    .findByEmailContainingIgnoreCase(email, pageable);
+        } else {
+            userPage = userRepository.findAll(pageable);
+        }
 
         List<UserResponse> users = userPage.getContent()
                 .stream()
