@@ -1,12 +1,13 @@
 package com.example.usermanagement.controller.user;
 
+import com.example.usermanagement.dto.user.UserPageResponse;
 import com.example.usermanagement.service.UserService;
-import com.example.usermanagement.dto.user.UserResponse;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -29,8 +30,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() {
-        return ResponseEntity.ok(userService.findAll());
+    public ResponseEntity<UserPageResponse> findAll(
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(
+                userService.findAll(pageable)
+        );
     }
 
     @GetMapping("/admin")
