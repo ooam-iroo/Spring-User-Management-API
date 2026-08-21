@@ -2,6 +2,7 @@ package com.example.usermanagement.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
@@ -13,23 +14,19 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI userManagementOpenAPI() {
         return new OpenAPI()
-                .components(
-                        new Components()
-                                .addSecuritySchemes(
-                                        "bearerAuth",
-                                        new SecurityScheme()
-                                                .type(SecurityScheme.Type.HTTP)
-                                                .scheme("bearer")
-                                                .bearerFormat("JWT")
-                                )
-                )
-                .info(
-                        new Info()
-                                .title("User Management API")
-                                .description(
-                                        "REST API for user management and authentication"
-                                )
-                                .version("1.0.0")
-                );
+                .info(new Info()
+                        .title("User Management API")
+                        .description("REST API for user management and authentication")
+                        .version("1.0.0")
+                        .contact(new Contact()
+                                .name("AmirMahdi Hassani")))
+                .components(new Components()
+                        .addSecuritySchemes(
+                                "bearerAuth",
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                        ));
     }
 }
