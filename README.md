@@ -1,134 +1,270 @@
-# Spring User Management API
+<div align="center">
 
-[![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0-brightgreen?logo=spring)](https://spring.io/projects/spring-boot)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue?logo=postgresql)](https://www.postgresql.org/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-TODO-lightgrey)]()
+# 🔐 Spring User Management API
 
-A secure, production-oriented REST API for user management built with **Java 21** and **Spring Boot 4.1.0**.
+### Secure & Production-Oriented REST API for User Management
 
-It provides JWT-based authentication (Access + Refresh tokens), role-based authorization, pagination, filtering, OpenAPI documentation, and a fully Dockerized setup with PostgreSQL.
+<p>
+  <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21">
+  <img src="https://img.shields.io/badge/Spring_Boot-4.1.0-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot">
+  <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" alt="Spring Security">
+  <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+</p>
 
-Designed as a portfolio project that demonstrates clean architecture, security best practices, comprehensive testing, and CI/CD.
+<p>
+  <img src="https://img.shields.io/badge/JWT-Authentication-000000?style=flat-square&logo=jsonwebtokens&logoColor=white" alt="JWT">
+  <img src="https://img.shields.io/badge/Flyway-Migrations-CC0200?style=flat-square" alt="Flyway">
+  <img src="https://img.shields.io/badge/OpenAPI-Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black" alt="OpenAPI">
+  <img src="https://img.shields.io/badge/Maven-C71A36?style=flat-square&logo=apachemaven&logoColor=white" alt="Maven">
+</p>
 
----
-
-## Overview
-
-This API enables users to register, authenticate, and manage accounts under strict access control.  
-Administrators have elevated privileges for user listing, deletion, and dashboard access.
-
-The application follows a clear layered architecture, uses Flyway for database migrations, and includes unit, security, and integration tests.
-
----
-
-## Features
-
-- User registration and login
-- JWT authentication with Access Token and Refresh Token
-- Role-based authorization (`USER` / `ADMIN`)
-- Current authenticated user endpoint
-- Paginated user listing with optional email filtering
-- Admin-only endpoints (user listing, deletion, dashboard)
-- Global exception handling and validation error responses
-- OpenAPI / Swagger documentation
-- Spring Boot Actuator health checks
-- Dockerized application + PostgreSQL via Docker Compose
-- Unit tests, controller security tests, and integration tests
-- GitHub Actions CI + Qodana code quality analysis
+</div>
 
 ---
 
-## Tech Stack
+## 📌 Overview
 
-| Technology              | Purpose                        |
-|-------------------------|--------------------------------|
-| Java 21                 | Language                       |
-| Spring Boot 4.1.0       | Application framework          |
-| Spring Security         | Authentication & authorization |
-| Spring Data JPA         | Data access                    |
-| PostgreSQL 16           | Relational database            |
-| Flyway                  | Database migrations            |
-| JWT (jjwt 0.12.6)       | Token-based authentication     |
-| Jakarta Bean Validation | Request validation             |
-| springdoc-openapi       | OpenAPI / Swagger documentation|
-| Spring Boot Actuator    | Health & monitoring            |
-| Lombok                  | Boilerplate reduction          |
-| Maven                   | Build tool                     |
-| JUnit 5 + Mockito       | Unit testing                   |
-| MockMvc                 | Controller & security testing  |
-| Docker + Docker Compose | Containerization               |
-| GitHub Actions          | CI pipeline                    |
-| Qodana                  | Static code analysis           |
+**Spring User Management API** is a secure, production-oriented REST API for user management built with **Java 21** and **Spring Boot 4.1.0**.
+
+The API provides:
+
+* 🔐 JWT authentication with Access & Refresh Tokens
+* 👥 Role-based authorization
+* 📄 Pagination & filtering
+* 📚 OpenAPI / Swagger documentation
+* 🐘 PostgreSQL database
+* 🗃️ Flyway database migrations
+* 🐳 Docker & Docker Compose
+* 🧪 Unit, security & integration testing
+* ⚙️ GitHub Actions CI
+* 🔍 Qodana code quality analysis
+
+The project follows a layered architecture and focuses on security, maintainability, testing, and clean separation of responsibilities.
 
 ---
 
-## Architecture
+## ✨ Features
 
-The project follows a classic layered architecture:
+### 🔐 Authentication
 
-| Layer               | Responsibility                                      |
-|---------------------|-----------------------------------------------------|
-| **Controller**      | HTTP request/response handling                      |
-| **Service**         | Business logic (`AuthService`, `UserService`, ...)  |
-| **Repository**      | Data access via Spring Data JPA                     |
-| **Entity**          | JPA entities (`User`, `Role`, `RefreshToken`, ...)  |
-| **DTO**             | Request/response objects                            |
-| **Security**        | JWT filter, security config, user details           |
-| **Exception**       | Centralized error handling                          |
-| **Migration**       | Flyway scripts (`classpath:db/migration`)           |
-| **Config**          | JPA and OpenAPI configuration                       |
+* User registration
+* User login
+* JWT Access Token
+* JWT Refresh Token
+* Refresh token persistence
+* Current authenticated user endpoint
 
-**Package root:** `com.example.usermanagement`
+### 👤 User Management
+
+* Get current user
+* List users
+* Pagination
+* Email filtering
+* User deletion
+* Admin-only user management
+
+### 🛡️ Authorization
+
+Two roles are available:
+
+```text
+USER
+ADMIN
+```
+
+`USER` provides standard authenticated access, while `ADMIN` provides elevated access to administrative endpoints.
+
+### 🧯 Error Handling
+
+* Global exception handling
+* Custom exceptions
+* Validation error responses
+* Appropriate HTTP status codes
+
+### 📖 API Documentation
+
+The project includes:
+
+* OpenAPI
+* Swagger UI
+* OpenAPI JSON specification
+
+### ❤️ Health & Monitoring
+
+Spring Boot Actuator provides application health checks.
 
 ---
 
-## Authentication & Authorization
+## 🧰 Tech Stack
 
-Authentication is based on JWT:
+| Technology                    | Purpose                        |
+| ----------------------------- | ------------------------------ |
+| ☕ **Java 21**                 | Programming language           |
+| 🍃 **Spring Boot 4.1.0**      | Application framework          |
+| 🔐 **Spring Security**        | Authentication & authorization |
+| 🗄️ **Spring Data JPA**       | Data access                    |
+| 🐘 **PostgreSQL 16**          | Relational database            |
+| 🗃️ **Flyway**                | Database migrations            |
+| 🎫 **JJWT 0.12.6**            | JWT authentication             |
+| ✅ **Jakarta Bean Validation** | Request validation             |
+| 📚 **springdoc-openapi**      | OpenAPI / Swagger              |
+| ❤️ **Spring Boot Actuator**   | Health & monitoring            |
+| 🧩 **Lombok**                 | Boilerplate reduction          |
+| 📦 **Maven**                  | Build tool                     |
+| 🧪 **JUnit 5**                | Unit testing                   |
+| 🧪 **Mockito**                | Mock-based testing             |
+| 🌐 **MockMvc**                | Controller & security testing  |
+| 🐳 **Docker**                 | Containerization               |
+| 🔄 **Docker Compose**         | Multi-container environment    |
+| ⚙️ **GitHub Actions**         | CI                             |
+| 🔍 **Qodana**                 | Static code analysis           |
 
-| Token Type      | Lifetime              | Storage          |
-|-----------------|-----------------------|------------------|
-| Access Token    | 15 minutes (900000 ms)| Stateless (JWT)  |
-| Refresh Token   | 7 days (604800000 ms) | Database         |
+---
 
-Protected endpoints require the header:
+## 🏗️ Architecture
+
+The application follows a classic layered architecture:
+
+```text
+                         ┌─────────────────────┐
+                         │       Client        │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │     Controller      │
+                         │   REST Endpoints    │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │      Service        │
+                         │   Business Logic    │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │     Repository      │
+                         │    Spring Data JPA  │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │    PostgreSQL DB    │
+                         └─────────────────────┘
+```
+
+### Layers
+
+| Layer          | Responsibility                   |
+| -------------- | -------------------------------- |
+| **Controller** | HTTP request & response handling |
+| **Service**    | Business logic                   |
+| **Repository** | Database access                  |
+| **Entity**     | JPA entities                     |
+| **DTO**        | Request & response models        |
+| **Security**   | JWT & authentication             |
+| **Exception**  | Centralized error handling       |
+| **Migration**  | Flyway database migrations       |
+| **Config**     | Application configuration        |
+
+Package root:
+
+```text
+com.example.usermanagement
+```
+
+---
+
+# 🔐 Authentication & Authorization
+
+Authentication is implemented using **JWT**.
+
+## Token Lifecycle
+
+| Token            |   Lifetime | Storage       |
+| ---------------- | ---------: | ------------- |
+| 🔑 Access Token  | 15 minutes | Stateless JWT |
+| ♻️ Refresh Token |     7 days | PostgreSQL    |
+
+Protected endpoints require:
 
 ```http
 Authorization: Bearer <access_token>
 ```
 
-**Roles:**
+### Access Flow
 
-- `USER` — Standard authenticated access
-- `ADMIN` — Elevated privileges (admin endpoints, user deletion, etc.)
-
-Role-based authorization is enforced at the endpoint level using Spring Security.
+```text
+┌──────────┐
+│  Login   │
+└────┬─────┘
+     │
+     ▼
+┌──────────────────┐
+│ Access + Refresh │
+│     Tokens       │
+└────┬─────────────┘
+     │
+     ▼
+┌──────────────────┐
+│ Protected API    │
+│ Bearer Token     │
+└────┬─────────────┘
+     │
+     ▼
+┌──────────────────┐
+│   JWT Filter     │
+└────┬─────────────┘
+     │
+     ▼
+┌──────────────────┐
+│ Spring Security  │
+└──────────────────┘
+```
 
 ---
 
-## API Endpoints
+# 👥 Roles
 
-| Method | Endpoint                 | Auth           | Description                     |
-|--------|--------------------------|----------------|---------------------------------|
-| `POST` | `/api/auth/register`     | Public         | Register a new user             |
-| `POST` | `/api/auth/login`        | Public         | Authenticate and receive tokens |
-| `POST` | `/api/auth/refresh`      | Public         | Obtain a new access token       |
-| `GET`  | `/api/users/me`          | Authenticated  | Get current authenticated user  |
-| `GET`  | `/api/users`             | Authenticated  | List users (paginated + filter) |
-| `GET`  | `/api/users/admin`       | Admin          | Admin user listing              |
-| `DELETE` | `/api/users/{id}`      | Admin          | Delete a user by ID             |
-| `GET`  | `/api/admin/dashboard`   | Admin          | Admin dashboard                 |
-| `GET`  | `/actuator/health`       | Public         | Application health check        |
+### `USER`
+
+Standard authenticated access.
+
+### `ADMIN`
+
+Elevated privileges including:
+
+* Admin user listing
+* User deletion
+* Admin dashboard
+
+Role-based access is enforced at the endpoint level through Spring Security.
 
 ---
 
-## API Usage
+# 📡 API Endpoints
 
-Examples using [HTTPie](https://httpie.io/).
+| Method   | Endpoint               | Authentication | Description                     |
+| -------- | ---------------------- | -------------- | ------------------------------- |
+| `POST`   | `/api/auth/register`   | 🌐 Public      | Register a new user             |
+| `POST`   | `/api/auth/login`      | 🌐 Public      | Authenticate and receive tokens |
+| `POST`   | `/api/auth/refresh`    | 🌐 Public      | Get a new access token          |
+| `GET`    | `/api/users/me`        | 🔐 User        | Get current user                |
+| `GET`    | `/api/users`           | 🔐 User        | Paginated user listing          |
+| `GET`    | `/api/users/admin`     | 👑 Admin       | Admin user listing              |
+| `DELETE` | `/api/users/{id}`      | 👑 Admin       | Delete user                     |
+| `GET`    | `/api/admin/dashboard` | 👑 Admin       | Admin dashboard                 |
+| `GET`    | `/actuator/health`     | 🌐 Public      | Health check                    |
 
-### Register
+---
+
+# 🚀 API Usage
+
+The examples below use **HTTPie**.
+
+## Register
 
 ```bash
 http POST :8080/api/auth/register \
@@ -138,7 +274,7 @@ http POST :8080/api/auth/register \
   lastName=Example
 ```
 
-### Login
+## Login
 
 ```bash
 http POST :8080/api/auth/login \
@@ -146,35 +282,35 @@ http POST :8080/api/auth/login \
   password=password123
 ```
 
-### Refresh Token
+## Refresh Token
 
 ```bash
 http POST :8080/api/auth/refresh \
   refreshToken="YOUR_REFRESH_TOKEN"
 ```
 
-### Get Current User
+## Current User
 
 ```bash
 http GET :8080/api/users/me \
   "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-### Get Users
+## Get Users
 
 ```bash
 http GET :8080/api/users \
   "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-### Admin Dashboard
+## Admin Dashboard
 
 ```bash
 http GET :8080/api/admin/dashboard \
   "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-### Delete User (Admin)
+## Delete User
 
 ```bash
 http DELETE :8080/api/users/1 \
@@ -183,41 +319,76 @@ http DELETE :8080/api/users/1 \
 
 ---
 
-## Pagination & Filtering
+# 📄 Pagination & Filtering
 
-User listing supports pagination and optional email filtering:
+The user listing supports pagination and optional email filtering.
+
+### Pagination
 
 ```bash
-# Pagination
 http GET ":8080/api/users?page=0&size=10" \
   "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
 
-# Email filtering
+### Email Filtering
+
+```bash
 http GET ":8080/api/users?email=jolia@example.com" \
   "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 ---
 
-## Error Handling
+# 🧯 Error Handling
 
-- Global exception handling via `GlobalExceptionHandler`
-- Custom exceptions: `UserAlreadyExistsException`, `UserNotFoundException`
-- Bean Validation errors returned in a consistent structure
-- Proper HTTP status codes for authentication, authorization, and validation failures
+The API provides centralized error handling through:
+
+```text
+GlobalExceptionHandler
+```
+
+Custom exceptions include:
+
+```text
+UserAlreadyExistsException
+UserNotFoundException
+```
+
+Validation errors are returned in a consistent structure with appropriate HTTP status codes.
 
 ---
 
-## Testing
+# 🧪 Testing
 
-The project includes:
+The project includes several levels of testing.
 
-- **Unit tests** — `AuthServiceTest`, `UserServiceTest`
-- **Controller security tests** — `AuthControllerTest`, `UserControllerSecurityTest`, `UserAdminControllerSecurityTest`, `AdminControllerSecurityTest`
-- **Integration tests** — `AuthUserIntegrationTest`
-- **Application context test**
+### Unit Tests
 
-Run all tests:
+```text
+AuthServiceTest
+UserServiceTest
+```
+
+### Controller Security Tests
+
+```text
+AuthControllerTest
+UserControllerSecurityTest
+UserAdminControllerSecurityTest
+AdminControllerSecurityTest
+```
+
+### Integration Tests
+
+```text
+AuthUserIntegrationTest
+```
+
+### Application Context
+
+The project also includes an application context test.
+
+### Run Tests
 
 ```bash
 ./mvnw clean test
@@ -225,39 +396,56 @@ Run all tests:
 
 ---
 
-## Docker
+# 🐳 Docker
 
-The application and PostgreSQL run together with Docker Compose.
+The application and PostgreSQL database can be started together using Docker Compose.
 
 ```bash
 docker compose up -d
 ```
 
-| Service    | URL / Port              |
-|------------|-------------------------|
-| API        | http://localhost:8080   |
-| PostgreSQL | localhost:5432          |
+### Services
 
-Inside the Docker network the application connects to the database using the hostname `postgres`.
+| Service       | Address          |
+| ------------- | ---------------- |
+| 🚀 API        | `localhost:8080` |
+| 🐘 PostgreSQL | `localhost:5432` |
 
----
+Inside the Docker network, the application connects to PostgreSQL through:
 
-## API Documentation
-
-| Resource     | URL                                              |
-|--------------|--------------------------------------------------|
-| Swagger UI   | http://localhost:8080/swagger-ui/index.html      |
-| OpenAPI JSON | http://localhost:8080/v3/api-docs                |
+```text
+postgres
+```
 
 ---
 
-## Health Check
+# 📚 API Documentation
+
+Once the application is running:
+
+### Swagger UI
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+### OpenAPI JSON
+
+```text
+http://localhost:8080/v3/api-docs
+```
+
+---
+
+# ❤️ Health Check
+
+Check application health:
 
 ```bash
 curl http://localhost:8080/actuator/health
 ```
 
-Example response:
+Expected response:
 
 ```json
 {
@@ -267,32 +455,36 @@ Example response:
 
 ---
 
-## CI/CD
+# ⚙️ CI/CD
 
-GitHub Actions workflows:
+The repository includes GitHub Actions workflows.
 
-| Workflow                    | Purpose                              |
-|-----------------------------|--------------------------------------|
-| `ci.yml`                    | Runs tests on every push and PR      |
-| `qodana_code_quality.yml`   | Static code analysis with Qodana     |
+| Workflow                  | Purpose                                  |
+| ------------------------- | ---------------------------------------- |
+| `ci.yml`                  | Run tests on every push and pull request |
+| `qodana_code_quality.yml` | Static code analysis with Qodana         |
 
 ---
 
-## Project Structure
+# 📁 Project Structure
 
 ```text
 src/main/java/com/example/usermanagement
+│
 ├── config/
 │   ├── JpaConfig.java
 │   └── OpenApiConfig.java
+│
 ├── controller/
 │   ├── admin/
 │   ├── auth/
 │   └── user/
+│
 ├── dto/
 │   ├── auth/
 │   ├── error/
 │   └── user/
+│
 ├── entity/
 │   ├── enums/
 │   ├── AuditLog.java
@@ -300,101 +492,158 @@ src/main/java/com/example/usermanagement
 │   ├── RefreshToken.java
 │   ├── Role.java
 │   └── User.java
+│
 ├── exception/
 │   ├── GlobalExceptionHandler.java
 │   ├── UserAlreadyExistsException.java
 │   └── UserNotFoundException.java
+│
 ├── mapper/
+│
 ├── repository/
 │   ├── RefreshTokenRepository.java
 │   ├── RoleRepository.java
 │   └── UserRepository.java
+│
 ├── security/
 │   ├── config/
 │   ├── jwt/
 │   ├── service/
 │   └── user/
+│
 ├── service/
 │   ├── AuthService.java
 │   ├── RefreshTokenService.java
 │   └── UserService.java
+│
 ├── util/
 ├── validation/
+│
 └── SpringUserManagementApiApplication.java
 ```
 
 ---
 
-## Getting Started
+# 🚀 Getting Started
 
-### Prerequisites
+## Requirements
 
-- Java 21
-- Docker & Docker Compose
-- Maven Wrapper (`./mvnw`) is included
+Before running the project, make sure you have:
 
-### Quick Start (Docker)
+* ☕ Java 21
+* 🐳 Docker & Docker Compose
+* 📦 Maven Wrapper
+
+The repository already includes the Maven Wrapper.
+
+---
+
+## ⚡ Quick Start with Docker
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/ooam-iroo/Spring-User-Management-API.git
+```
+
+Enter the project:
+
+```bash
 cd Spring-User-Management-API
+```
+
+Start the application:
+
+```bash
 docker compose up -d
 ```
 
-The API will be available at **http://localhost:8080**
+The API will be available at:
 
-### Local Development
-
-1. Start PostgreSQL (or use the Docker Postgres service)
-2. Build the project:
-
-   ```bash
-   ./mvnw clean package
-   ```
-
-3. Run the application:
-
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-
-4. Open Swagger UI: http://localhost:8080/swagger-ui/index.html
+```text
+http://localhost:8080
+```
 
 ---
 
-## Configuration
+# 💻 Local Development
 
-Key settings from `application.yml`:
+### 1. Start PostgreSQL
 
-| Property                           | Value / Default                                      | Description                |
-|------------------------------------|------------------------------------------------------|----------------------------|
-| `spring.datasource.url`            | `jdbc:postgresql://localhost:5432/user_management`   | Database connection        |
-| `spring.jpa.hibernate.ddl-auto`    | `validate`                                           | Schema validation only     |
-| `spring.flyway.enabled`            | `true`                                               | Enable Flyway migrations   |
-| `app.jwt.secret`                   | *(change in production)*                             | JWT signing key            |
-| `app.jwt.access-token-expiration`  | `900000` (15 min)                                    | Access token lifetime      |
-| `app.jwt.refresh-token-expiration` | `604800000` (7 days)                                 | Refresh token lifetime     |
-| `server.port`                      | `8080`                                               | Application port           |
+Start PostgreSQL locally or use the PostgreSQL service provided by Docker.
 
-In Docker, the datasource is automatically overridden to use the service name `postgres`.
+### 2. Build the project
 
----
+```bash
+./mvnw clean package
+```
 
-## Future Improvements
+### 3. Run the application
 
-The following features are **not** implemented yet and are planned for future iterations:
+```bash
+./mvnw spring-boot:run
+```
 
-- Redis for token blacklisting / caching
-- Rate limiting
-- Email verification
-- Password reset flow
-- Full audit logging (entity already prepared)
-- Testcontainers for integration tests
-- Kubernetes deployment manifests
+### 4. Open Swagger
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
 
 ---
 
-## License
+# ⚙️ Configuration
 
-TODO – License not yet defined.
+Important settings from `application.yml`:
 
+| Property                           | Default                                            | Description            |
+| ---------------------------------- | -------------------------------------------------- | ---------------------- |
+| `spring.datasource.url`            | `jdbc:postgresql://localhost:5432/user_management` | Database connection    |
+| `spring.jpa.hibernate.ddl-auto`    | `validate`                                         | Schema validation      |
+| `spring.flyway.enabled`            | `true`                                             | Flyway migrations      |
+| `app.jwt.secret`                   | Change in production                               | JWT signing key        |
+| `app.jwt.access-token-expiration`  | `900000`                                           | Access token lifetime  |
+| `app.jwt.refresh-token-expiration` | `604800000`                                        | Refresh token lifetime |
+| `server.port`                      | `8080`                                             | Application port       |
+
+> ⚠️ Never use a default or exposed JWT secret in a production environment.
+
+When running with Docker Compose, the database connection is configured to use the PostgreSQL service name:
+
+```text
+postgres
+```
+
+---
+
+# 🗺️ Future Improvements
+
+The following features are planned but are **not implemented yet**:
+
+* [ ] Redis for token blacklisting / caching
+* [ ] Rate limiting
+* [ ] Email verification
+* [ ] Password reset flow
+* [ ] Full audit logging
+* [ ] Testcontainers for integration tests
+* [ ] Kubernetes deployment manifests
+
+---
+
+# 📜 License
+
+License is not yet defined for this project.
+
+---
+
+<div align="center">
+
+### 🔐 Secure APIs. Clean Architecture. Reliable Backend.
+
+**Built with Java & Spring Boot.**
+
+<br>
+
+⭐ If you find this project useful, consider giving it a star.
+
+</div>
